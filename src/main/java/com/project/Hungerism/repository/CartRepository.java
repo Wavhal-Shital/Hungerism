@@ -6,4 +6,5 @@ import com.project.Hungerism.model.Cart;
 
 public interface CartRepository extends JpaRepository<Cart,Long>{
 
+   
 }

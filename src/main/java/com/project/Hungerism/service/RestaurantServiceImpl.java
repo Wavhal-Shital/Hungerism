@@ -1,6 +1,5 @@
 package com.project.Hungerism.service;
 
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -37,15 +36,26 @@ public class RestaurantServiceImpl implements RestaurantService {
         dto.setDescription(restaurant.getDescription());
         dto.setImages(restaurant.getImages());
         dto.setTitle(restaurant.getName());
-        dto.setId(restaurant.getId());
+        dto.setId(restaurantId);
 
-        if (user.getFavorites().contains(dto)){
-            user.getFavorites().remove(dto);
+     
+        boolean isFavorited= false;
+        List<RestaurantDto> favorites= user.getFavorites();
+        for(RestaurantDto favorite: favorites){
+            if(favorite.getId().equals(restaurantId)){
+                isFavorited=true;
+                break;
+            }
         }
-        else user.getFavorites().add(dto);
+
+        if(isFavorited){
+            favorites.removeIf(favorite ->favorite.getId().equals(restaurantId));
+        }else{
+            favorites.add(dto);
+        }
+
 
         userRepository.save(user);
-
         return dto;
     }
 
@@ -130,6 +140,8 @@ public class RestaurantServiceImpl implements RestaurantService {
         }
         return restaurantRepository.save(restaurant);
     }
+  
+
 
     @Override
     public Restaurant updateRestaurantStatus(Long id) throws Exception {

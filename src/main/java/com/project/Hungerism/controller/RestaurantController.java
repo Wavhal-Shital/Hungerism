@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.project.Hungerism.dto.RestaurantDto;
@@ -37,20 +38,22 @@ public class RestaurantController {
 
    
 
-    @PostMapping("")    
-    public ResponseEntity<Restaurant> createRestaurant(
-    @RequestBody CreateRestaurantRequest req,
-    @RequestHeader("Authorization") String jwt 
+    @GetMapping("/search")    
+    public ResponseEntity<List<Restaurant>> searchRestaurant(
+
+    @RequestHeader("Authorization") String jwt, 
+    @RequestParam String keyword
     )throws Exception {
        User user= userService.findUserByJwtToken(jwt);
 
-       Restaurant restaurant=restaurantService.createRestaurant(req, user);
-        return new  ResponseEntity<>(restaurant, HttpStatus.OK);
+       List<Restaurant> restaurant=restaurantService.searchRestaurant(keyword);
+
+        return new ResponseEntity<>(restaurant, HttpStatus.OK);
 
     }
 
 
-    @GetMapping("")    
+    @GetMapping()    
     public ResponseEntity<List<Restaurant>> getAllRestaurant(
     @RequestHeader("Authorization") String jwt 
     )throws Exception {

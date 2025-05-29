@@ -35,7 +35,7 @@ public class AdminRestaurantController {
 
    
 
-    @PostMapping("")    
+    @PostMapping("/")    
     public ResponseEntity<Restaurant> createRestaurant(
     @RequestBody CreateRestaurantRequest req,
     @RequestHeader("Authorization") String jwt 
@@ -78,7 +78,7 @@ public class AdminRestaurantController {
 
     @PutMapping("/{id}/status")    
     public ResponseEntity<Restaurant> updateRestaurantStatus(
-    @RequestBody CreateRestaurantRequest req,
+        
     @RequestHeader("Authorization") String jwt,
     @PathVariable Long id 
     )throws Exception {
